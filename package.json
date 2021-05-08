@@ -1,0 +1,11 @@
+{
+  "name": "notifyme",
+  "version": "1.0.0",
+  "description": "A vaccine notifier to get latest results for the available slots in India",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saransh",
+  "license": "ISC"
+}
