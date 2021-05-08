@@ -30,6 +30,10 @@ class User {
     this.initSchema();
     return mongoose.model('users');
   }
+
+  getInstanceWithoutInit() {
+    return mongoose.model('users');
+  }
 }
 
 export default User;
