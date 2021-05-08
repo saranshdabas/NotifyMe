@@ -14,9 +14,11 @@ class User {
         state: {
           type: String,
         },
-        district: {
-          type: String,
-        },
+        district: [
+          {
+            type: String,
+          },
+        ],
       },
       { timestamps: true }
     );
