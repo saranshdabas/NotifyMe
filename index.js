@@ -1,7 +1,11 @@
-const express = require('express');
+import server from './config/server';
+import './config/database';
 
-const app = express();
-
-app.listen(3000, () => {
-  console.log('Server started');
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`app running on port ${PORT}`);
 });
+
+const user = mongoose.model('notifyme', userSchema);
+
+module.exports = user;
