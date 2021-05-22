@@ -1,4 +1,4 @@
-import UserController from '../src/controllers/UserController';
+import UserController from '../controllers/UserController';
 
 export default (server) => {
   //USER routes

@@ -87,6 +87,7 @@ class CowinService {
       let districtData = [];
       for (const { id, payload } of user.districts) {
         //Wait for 3s before next api call
+        console.log('District Id: ', id);
         await new Promise((resolve) => setTimeout(resolve, 3000));
         try {
           const res = await axios.get(
@@ -98,16 +99,18 @@ class CowinService {
           districtData = [...districtData, { id, payload: stringData }];
           if (stringData !== payload) {
             const emailString = this.giveMe18PlusSlots(res.data);
+            slotsChanged = true;
             if (emailString.length) {
               emailService.sendEmail(user.email, emailString);
             }
-            slotsChanged = true;
           }
         } catch (error) {
           console.log(error.response.status + ' ' + error.response.statusText);
           console.log(error.data);
         }
+        console.log('District Id: ', districtData.length);
       }
+      console.log('Slot changed: ', slotsChanged);
       if (slotsChanged) {
         userService.update(user._id, { user, districts: districtData });
       }

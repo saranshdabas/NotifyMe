@@ -9,7 +9,7 @@
     "server": "node ./dist-server/index.js",
     "dev": "NODE_ENV=development npm run build && npm run server",
     "prod": "NODE_ENV=production npm run build && npm run server",
-    "transpile": "babel . --out-dir dist-server",
+    "transpile": "babel ./src --out-dir dist-server",
     "clean": "rm -rf dist-server",
     "watch:dev": "nodemon"
   },
