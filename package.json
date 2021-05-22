@@ -4,12 +4,14 @@
   "description": "A vaccine notifier to get latest results for the available slots in India",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:start": "clear; nodemon --exec babel-node index.js",
-    "clean": "rm -rf build && mkdir build",
-    "build-server": "babel-node -d ./build ./server -s",
-    "build": "babel-node index.js --out-file index-compiled.js",
-    "start": "node ./build/index.js"
+    "start": "npm run prod",
+    "build": "npm run clean && npm run transpile",
+    "server": "node ./dist-server/index.js",
+    "dev": "NODE_ENV=development npm run build && npm run server",
+    "prod": "NODE_ENV=production npm run build && npm run server",
+    "transpile": "babel . --out-dir dist-server",
+    "clean": "rm -rf dist-server",
+    "watch:dev": "nodemon"
   },
   "author": "Saransh",
   "license": "ISC",
@@ -24,9 +26,13 @@
     "nodemailer": "^6.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.0",
-    "@babel/node": "^7.13.13",
-    "@babel/preset-env": "^7.14.1",
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/node": "^7.14.2",
+    "@babel/plugin-transform-runtime": "^7.14.3",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.14.2",
+    "@babel/runtime": "^7.14.0",
     "babel-loader": "^8.2.2",
     "nodemon": "^2.0.7"
   }
