@@ -14,9 +14,14 @@ class User {
         state: {
           type: String,
         },
-        district: [
+        districts: [
           {
-            type: String,
+            id: {
+              type: Number,
+            },
+            payload: {
+              type: String,
+            },
           },
         ],
       },

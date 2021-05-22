@@ -1,11 +1,21 @@
 import UserService from '../services/UserService';
 import User from '../models/User';
+import axios from 'axios';
+import EmailService from './EmailService';
 
+const cowinResourceUrl =
+  'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict';
 const userService = new UserService(new User().getInstanceWithoutInit());
+const emailService = new EmailService();
 class CowinService {
   constructor() {
     this.users = [];
+    this.notificationSent = {};
     this.refreshUsers();
+    setInterval(() => {
+      this.getDataForEachUser();
+    }, 600000);
+    this.getDataForEachUser();
   }
 
   async refreshUsers() {
@@ -16,14 +26,92 @@ class CowinService {
       await this.refreshUsers();
     } else {
       this.users = response.data;
-      console.log(this.users);
       await new Promise((resolve) => setTimeout(resolve, 60000));
       await this.refreshUsers();
     }
   }
 
+  getCurrentDate() {
+    let today = new Date();
+    let dd = today.getDate();
+
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = `0${dd}`;
+    }
+
+    if (mm < 10) {
+      mm = `0${mm}`;
+    }
+    return `${dd}-${mm}-${yyyy}`;
+  }
+
+  //Slots for 18+
+  giveMe18PlusSlots(data) {
+    let centerDetails = '';
+    data['centers'].forEach((center) => {
+      let centerDetailsTemp = `<h3>Center Name: ${center.name}<h3> 
+        <h3>Address: ${center.state_name} ${center.district_name} ${center.address}<h3>
+        <h3>Fee type: ${center.fee_type}<h3>
+        `;
+      let sessionDetails = '';
+      center.sessions.forEach((session) => {
+        if (session.min_age_limit === 18) {
+          let slots = '';
+          session.slots.forEach((slot) => {
+            slots += `${slot} <br>`;
+          });
+          sessionDetails += `<h4>Date:  ${session.date}</h4>
+                <h4>Capacity: ${session.available_capacity}</h4>
+                <h4>Vaccine: ${session.vaccine}</h4>
+                <h4>slots: </h4> ${slots} <br>
+                `;
+        }
+      });
+      if (sessionDetails.length) {
+        centerDetails += centerDetailsTemp + sessionDetails;
+      }
+    });
+    return centerDetails;
+  }
+
   async getDataForEachUser() {
     //Call cowin apis
+    if (this.users.length === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      return this.getDataForEachUser();
+    }
+    for (const user of this.users) {
+      let slotsChanged = false;
+      let districtData = [];
+      for (const { id, payload } of user.districts) {
+        //Wait for 3s before next api call
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        try {
+          const res = await axios.get(
+            `${cowinResourceUrl}?district_id=${id}&date=${this.getCurrentDate()}`,
+            { headers: { 'User-Agent': 'Chrome/90.0.4430.93' } }
+          );
+
+          const stringData = JSON.stringify(res.data);
+          districtData = [...districtData, { id, payload: stringData }];
+          if (stringData !== payload) {
+            const emailString = this.giveMe18PlusSlots(res.data);
+            if (emailString.length) {
+              emailService.sendEmail(user.email, emailString);
+            }
+            slotsChanged = true;
+          }
+        } catch (error) {
+          console.log(error.response.status + ' ' + error.response.statusText);
+          console.log(error.data);
+        }
+      }
+      if (slotsChanged) {
+        userService.update(user._id, { user, districts: districtData });
+      }
+    }
   }
 }
 
