@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 class Connection {
   constructor() {
-    const url = process.env.MONGODB_URI;
+    const url = process.env.MONGODB_URI || '';
     mongoose.Promise = global.Promise;
     mongoose.set('useNewUrlParser', true);
     mongoose.set('useFindAndModify', false);
