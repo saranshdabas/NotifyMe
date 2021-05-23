@@ -4,7 +4,7 @@
   "description": "A vaccine notifier to get latest results for the available slots in India",
   "main": "index.js",
   "scripts": {
-    "start": "node dist-server/index"
+    "start": "npm install && node dist-server/index"
   },
   "author": "Saransh",
   "license": "ISC",
