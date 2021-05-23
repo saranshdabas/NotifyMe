@@ -2,15 +2,16 @@ import nodemailer from 'nodemailer';
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
 
+const oauth2Client = new OAuth2(
+  process.env.CLIENT_ID, // ClientID
+  process.env.CLIENT_SECRET, // Client Secret
+  'https://developers.google.com/oauthplayground' // Redirect URL
+);
+
 class EmailService {
   constructor() {}
 
   createTransporter = async () => {
-    const oauth2Client = new OAuth2(
-      process.env.CLIENT_ID, // ClientID
-      process.env.CLIENT_SECRET, // Client Secret
-      'https://developers.google.com/oauthplayground' // Redirect URL
-    );
     oauth2Client.setCredentials({
       refresh_token: process.env.REFRESH_TOKEN,
     });
