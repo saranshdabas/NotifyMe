@@ -92,7 +92,10 @@ class CowinService {
         try {
           const res = await axios.get(
             `${cowinResourceUrl}?district_id=${id}&date=${this.getCurrentDate()}`,
-            { headers: { 'User-Agent': 'Chrome/90.0.4430.93' } }
+            {
+              Host: 'cdn-api.co-vin.in',
+              headers: { 'User-Agent': 'Chrome/90.0.4430.93' },
+            }
           );
 
           const stringData = JSON.stringify(res.data);
