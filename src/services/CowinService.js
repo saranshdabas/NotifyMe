@@ -57,7 +57,7 @@ class CowinService {
         `;
       let sessionDetails = '';
       center.sessions.forEach((session) => {
-        if (session.min_age_limit === 18 && session.available_capacity) {
+        if (session.min_age_limit === 18 && session.available_capacity > 2) {
           console.log(session.min_age_limit);
           let slots = '';
           session.slots.forEach((slot) => {
@@ -100,9 +100,8 @@ class CowinService {
           );
 
           const eighteenPlusSlots = this.giveMe18PlusSlots(res.data);
-          const stringData = JSON.stringify(eighteenPlusSlots);
           districtData = [...districtData, { id, payload: stringData }];
-          if (stringData !== payload) {
+          if (eighteenPlusSlots.length && eighteenPlusSlots !== payload) {
             const emailString = eighteenPlusSlots;
             slotsChanged = true;
             if (emailString.length) {
