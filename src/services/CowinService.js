@@ -109,8 +109,7 @@ class CowinService {
             }
           }
         } catch (error) {
-          console.log(error.response.status + ' ' + error.response.statusText);
-          console.log(error.data);
+          console.log(error);
         }
         console.log('District Id: ', districtData.length);
       }
