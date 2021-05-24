@@ -100,7 +100,7 @@ class CowinService {
           );
 
           const eighteenPlusSlots = this.giveMe18PlusSlots(res.data);
-          districtData = [...districtData, { id, payload: stringData }];
+          districtData = [...districtData, { id, payload: eighteenPlusSlots }];
           if (eighteenPlusSlots.length && eighteenPlusSlots !== payload) {
             const emailString = eighteenPlusSlots;
             slotsChanged = true;
