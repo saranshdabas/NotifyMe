@@ -3,8 +3,6 @@ import bodyParser from 'body-parser';
 import setRoutes from './routes';
 
 const server = express();
-server.use(bodyParser.json());
-setRoutes(server);
 server.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -13,5 +11,7 @@ server.use(function (req, res, next) {
   );
   next();
 });
+server.use(bodyParser.json());
+setRoutes(server);
 
 export default server;
