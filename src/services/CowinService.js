@@ -52,21 +52,16 @@ class CowinService {
     let centerDetails = '';
     data['centers'].forEach((center) => {
       let centerDetailsTemp = `<h3>Center Name: ${center.name}<h3> 
-        <h3>Address: ${center.state_name} ${center.district_name} ${center.address}<h3>
+        <h3>Address:  ${center.address} ${center.state_name} ${center.district_name}<h3>
         <h3>Fee type: ${center.fee_type}<h3>
         `;
       let sessionDetails = '';
       center.sessions.forEach((session) => {
         if (session.min_age_limit === 18 && session.available_capacity > 2) {
           console.log(session.min_age_limit);
-          let slots = '';
-          session.slots.forEach((slot) => {
-            slots += `${slot} <br>`;
-          });
           sessionDetails += `<h4>Date:  ${session.date}</h4>
                 <h4>Capacity: ${session.available_capacity}</h4>
                 <h4>Vaccine: ${session.vaccine}</h4>
-                <h4>slots: </h4> ${slots} <br>
                 `;
         }
       });
