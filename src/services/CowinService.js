@@ -8,7 +8,7 @@ const cowinResourceUrl =
 const userService = new UserService(new User().getInstanceWithoutInit());
 const emailService = new EmailService();
 const tableHeader =
-  '<table style="border: 1px solid #333;">' +
+  '<table style="border: 3px solid #333;">' +
   '<thead>' +
   '<th>Date</th>' +
   '<th>Capacity</th>' +
@@ -66,10 +66,21 @@ class CowinService {
       center.sessions.forEach((session) => {
         if (session.min_age_limit === 18 && session.available_capacity > 2) {
           console.log(session.min_age_limit);
-          sessionDetails += '<tr>' + '<td>' + session.date + '</td>';
-          '<td>' + session.available_capacity + '</td>';
-          '<td>' + session.vaccine + '</td>';
-          '<td>' + session.fee_type + '</td>' + '</tr';
+          sessionDetails +=
+            '<tr>' +
+            '<td>' +
+            session.date +
+            '</td>' +
+            '<td>' +
+            session.available_capacity +
+            '</td>' +
+            '<td>' +
+            session.vaccine +
+            '</td>' +
+            '<td>' +
+            session.fee_type +
+            '</td>' +
+            '</tr';
         }
       });
       if (sessionDetails.length) {
