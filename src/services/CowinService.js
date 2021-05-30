@@ -8,7 +8,7 @@ const cowinResourceUrl =
 const userService = new UserService(new User().getInstanceWithoutInit());
 const emailService = new EmailService();
 const tableHeader =
-  '<table style="border: 2px solid black; border-collapse: collapse;">' +
+  '<table style="width: 100%; text-align: left; border: 4px solid #333; border-collapse: collapse;">' +
   '<thead>' +
   '<th>Date</th>' +
   '<th>Capacity</th>' +
@@ -78,7 +78,7 @@ class CowinService {
             session.vaccine +
             '</td>' +
             '<td>' +
-            session.fee_type +
+            center.fee_type +
             '</td>' +
             '</tr>';
         }
