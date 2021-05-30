@@ -59,7 +59,9 @@ class CowinService {
   giveMe18PlusSlots(data) {
     let centerDetails = '';
     data['centers'].forEach((center) => {
-      let centerDetailsTemp = `<h3>Center Name: ${center.name}<h3> 
+      let centerDetailsTemp = `
+      If you would like to stop receiving these alerts, unsubscribe <a href='https://vaccinenotification.netlify.app/'>here.</a><br>
+      <h3>Center Name: ${center.name}<h3> 
         <h3>Address:  ${center.address} ${center.state_name} ${center.district_name}<h3>
         `;
       let sessionDetails = '';
