@@ -55,14 +55,14 @@ class CowinService {
         <h3>Address:  ${center.address} ${center.state_name} ${center.district_name}<h3>
         `;
       let sessionDetails =
-        '<table><th>Date</th><th>Capacity></th><th>Vaccine</th><th>Fee</th>';
+        '<table><tr><th>Date</th><th>Capacity</th><th>Vaccine</th><th>Fee</th></tr>';
       center.sessions.forEach((session) => {
         if (session.min_age_limit === 18 && session.available_capacity > 2) {
           console.log(session.min_age_limit);
-          sessionDetails += `<tr>${session.date}</tr>
-                <tr>${session.available_capacity}</tr>
-                <tr>${session.vaccine}</tr>
-                <tr>${center.fee_type}</tr>
+          sessionDetails += `<tr><td>${session.date}</td>
+                <td>${session.available_capacity}</td>
+                <td>${session.vaccine}</td>
+                <td>${center.fee_type}</td></tr>
                 `;
         }
       });
