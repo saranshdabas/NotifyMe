@@ -8,7 +8,7 @@ const cowinResourceUrl =
 const userService = new UserService(new User().getInstanceWithoutInit());
 const emailService = new EmailService();
 const tableHeader =
-  '<table style="border: 3px solid #333;">' +
+  '<table style="border: 2px solid black; border-collapse: collapse;">' +
   '<thead>' +
   '<th>Date</th>' +
   '<th>Capacity</th>' +
@@ -80,7 +80,7 @@ class CowinService {
             '<td>' +
             session.fee_type +
             '</td>' +
-            '</tr';
+            '</tr>';
         }
       });
       if (sessionDetails.length) {
