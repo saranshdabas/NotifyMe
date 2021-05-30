@@ -7,6 +7,14 @@ const cowinResourceUrl =
   'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict';
 const userService = new UserService(new User().getInstanceWithoutInit());
 const emailService = new EmailService();
+const tableHeader =
+  '<table style="border: 1px solid #333;">' +
+  '<thead>' +
+  '<th>Date</th>' +
+  '<th>Capacity</th>' +
+  '<th>Vaccine</th>' +
+  '<th>Fee</th>' +
+  '</thead>';
 class CowinService {
   constructor() {
     this.users = [];
@@ -54,20 +62,19 @@ class CowinService {
       let centerDetailsTemp = `<h3>Center Name: ${center.name}<h3> 
         <h3>Address:  ${center.address} ${center.state_name} ${center.district_name}<h3>
         `;
-      let sessionDetails =
-        '<table><tr><th>Date</th><th>Capacity</th><th>Vaccine</th><th>Fee</th></tr>';
+      let sessionDetails = '';
       center.sessions.forEach((session) => {
         if (session.min_age_limit === 18 && session.available_capacity > 2) {
           console.log(session.min_age_limit);
-          sessionDetails += `<tr><td>${session.date}</td>
-                <td>${session.available_capacity}</td>
-                <td>${session.vaccine}</td>
-                <td>${center.fee_type}</td></tr>
-                `;
+          sessionDetails += '<tr>' + '<td>' + session.date + '</td>';
+          '<td>' + session.available_capacity + '</td>';
+          '<td>' + session.vaccine + '</td>';
+          '<td>' + session.fee_type + '</td>' + '</tr';
         }
       });
       if (sessionDetails.length) {
-        centerDetails += centerDetailsTemp + sessionDetails + '</table>';
+        centerDetails +=
+          centerDetailsTemp + tableHeader + sessionDetails + '</table>';
       }
     });
     return centerDetails;
