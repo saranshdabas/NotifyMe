@@ -22,7 +22,7 @@ class CowinService {
     this.refreshUsers();
     setInterval(() => {
       this.getDataForEachUser();
-    }, 600000);
+    }, 2000);
     this.getDataForEachUser();
   }
 
@@ -105,7 +105,7 @@ class CowinService {
       for (const { id, payload } of user.districts) {
         //Wait for 3s before next api call
         console.log('District Id: ', id);
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         try {
           const res = await axios.get(
             `${cowinResourceUrl}?district_id=${id}&date=${this.getCurrentDate()}`,
