@@ -19,11 +19,22 @@ class CowinService {
   constructor() {
     this.users = [];
     this.notificationSent = {};
-    this.refreshUsers();
-    setInterval(() => {
-      this.getDataForEachUser();
-    }, 2000);
-    this.getDataForEachUser();
+    this.callReapeatedlyUsers();
+    setTimeout(() => {
+      this.callReapeatedlySlots();
+    }, 4000);
+  }
+
+  async callReapeatedlySlots() {
+    while (true) {
+      await this.getDataForEachUser();
+    }
+  }
+
+  async callReapeatedlyUsers() {
+    while (true) {
+      await this.refreshUsers();
+    }
   }
 
   async refreshUsers() {
@@ -31,11 +42,9 @@ class CowinService {
     if (response.error) {
       //Problem - try again after some time
       await new Promise((resolve) => setTimeout(resolve, 60000));
-      await this.refreshUsers();
     } else {
       this.users = response.data;
       await new Promise((resolve) => setTimeout(resolve, 60000));
-      await this.refreshUsers();
     }
   }
 
@@ -67,7 +76,6 @@ class CowinService {
       let sessionDetails = '';
       center.sessions.forEach((session) => {
         if (session.min_age_limit === 18 && session.available_capacity > 2) {
-          console.log(session.min_age_limit);
           sessionDetails +=
             '<tr>' +
             '<td>' +
@@ -95,10 +103,10 @@ class CowinService {
 
   async getDataForEachUser() {
     //Call cowin apis
-    if (this.users.length === 0) {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      return this.getDataForEachUser();
-    }
+    // if (this.users.length === 0) {
+    //   await new Promise((resolve) => setTimeout(resolve, 3000));
+    //   return this.getDataForEachUser();
+    // }
     for (const user of this.users) {
       let slotsChanged = false;
       let districtData = [];
@@ -121,13 +129,15 @@ class CowinService {
             const emailString = eighteenPlusSlots;
             slotsChanged = true;
             if (emailString.length) {
-              emailService.sendEmail(user.email, emailString);
+              console.log('Email process');
+              await emailService.sendEmail(user.email, emailString);
+              await new Promise((resolve) => setTimeout(resolve, 2000));
             }
           }
         } catch (error) {
           console.log(error);
         }
-        console.log('District Id: ', districtData.length);
+        console.log('District Id: ', id);
       }
       console.log('Slot changed: ', slotsChanged);
       if (slotsChanged) {
