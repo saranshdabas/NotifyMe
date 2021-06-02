@@ -15,6 +15,7 @@ const tableHeader =
   '<th>Vaccine</th>' +
   '<th>Fee</th>' +
   '</thead>';
+const headerUnsub = `If you would like to stop receiving these alerts, unsubscribe <a href='https://vaccinenotification.netlify.app/'>here.</a><br>'`;
 class CowinService {
   constructor() {
     this.users = [];
@@ -66,8 +67,7 @@ class CowinService {
 
   //Slots for 18+
   giveMe18PlusSlots(data) {
-    let centerDetails =
-      "If you would like to stop receiving these alerts, unsubscribe <a href='https://vaccinenotification.netlify.app/'>here.</a><br>'";
+    let centerDetails = headerUnsub;
     data['centers'].forEach((center) => {
       let centerDetailsTemp = `
       <h3>Center Name: ${center.name}<h3> 
@@ -125,7 +125,10 @@ class CowinService {
 
           const eighteenPlusSlots = this.giveMe18PlusSlots(res.data);
           districtData = [...districtData, { id, payload: eighteenPlusSlots }];
-          if (eighteenPlusSlots.length && eighteenPlusSlots !== payload) {
+          if (
+            eighteenPlusSlots !== headerUnsub &&
+            eighteenPlusSlots !== payload
+          ) {
             const emailString = eighteenPlusSlots;
             slotsChanged = true;
             if (emailString.length) {
