@@ -98,7 +98,7 @@ class CowinService {
           centerDetailsTemp + tableHeader + sessionDetails + '</table>';
       }
     });
-    return centerDetails;
+    return centerDetails === headerUnsub ? '' : centerDetails;
   }
 
   async getDataForEachUser() {
@@ -125,10 +125,7 @@ class CowinService {
 
           const eighteenPlusSlots = this.giveMe18PlusSlots(res.data);
           districtData = [...districtData, { id, payload: eighteenPlusSlots }];
-          if (
-            eighteenPlusSlots !== headerUnsub &&
-            eighteenPlusSlots !== payload
-          ) {
+          if (eighteenPlusSlots.length && eighteenPlusSlots !== payload) {
             const emailString = eighteenPlusSlots;
             slotsChanged = true;
             if (emailString.length) {
