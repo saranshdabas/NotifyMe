@@ -15,7 +15,7 @@ const tableHeader =
   '<th>Vaccine</th>' +
   '<th>Fee</th>' +
   '</thead>';
-const headerUnsub = `If you would like to stop receiving these alerts, unsubscribe <a href='https://vaccinenotification.netlify.app/'>here.</a><br>'`;
+const headerUnsub = `If you would like to stop receiving these alerts, unsubscribe <a href='https://vaccinenotification.netlify.app/'>here.</a><br>`;
 class CowinService {
   constructor() {
     this.users = [];
